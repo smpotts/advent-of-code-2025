@@ -1,9 +1,24 @@
 from utils.data_loader import load_input
 
+def check_zero_click(turns, current_position, step, n):
+    count_zero = 0
+    for _ in range(turns):
+        # NOTE: this is an example of circular indexing
+        # the key trick is using the modulo operator % with the length of the list
+        # % operator gives a non-negative remainder
+        current_position = (current_position + step) % n
+        if current_position == 0:
+            print("CLICKED ZERO!")
+            count_zero += 1
+    
+    return current_position, count_zero
+
+
 def main():
-    data = load_input(1, 'sample')
+    data = load_input(1, 'input')
     dial_nums = list(range(100))
     count_zero = 0
+    n = len(dial_nums)
 
     current_position = 50
     print(f"The dial starts by pointing at {current_position}")
@@ -13,22 +28,17 @@ def main():
         turns = int(entry[1:])
 
         if direction == 'L':
-            passes = (turns - current_position + len(dial_nums) - 1) // len(dial_nums)
-            count_zero += passes
-            current_position = (current_position - turns) % len(dial_nums)
+            step = -1
+            current_position, hits = check_zero_click(turns, current_position, step, n)
+            count_zero += hits
             print(f"The dial is rotated {entry} to point at {current_position}")
         elif direction == 'R':
-            # NOTE: this is an example of circular indexing
-            # the key trick is using the modulo operator % with the length of the list
-            # % operator gives a non-negative remainder
-            # use integer division here to get the "laps"
-            passes = (current_position + turns) // len(dial_nums)
-            count_zero += passes
-            current_position = (current_position + turns) % len(dial_nums)
+            step = 1
+            current_position, hits = check_zero_click(turns, current_position, step, n)
+            count_zero += hits
             print(f"The dial is rotated {entry} to point at {current_position}")
 
-
-    print(f"Zero dial count: {count_zero}!!!")    
+    print(f"----- ZERO DIAL COUNT: {count_zero}! -----")    
     return count_zero
 
 if __name__ == '__main__':
