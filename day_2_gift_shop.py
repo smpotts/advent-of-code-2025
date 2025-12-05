@@ -2,7 +2,7 @@ from utils.data_loader import load_input
 import re
 
 def main():
-    data = load_input(2, 'scratch', True)
+    data = load_input(2, 'input', True)
     invalid_ids = []
 
     for elt in data:
