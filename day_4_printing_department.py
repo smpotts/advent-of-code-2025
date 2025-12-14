@@ -1,7 +1,7 @@
 from utils.data_loader import load_input
 
 def main():
-    grid = load_input(4, 'sample')
+    grid = load_input(4, 'input')
     print(grid)
 
     directions = [
@@ -18,26 +18,26 @@ def main():
     # for each row and column
     for row in range(rows):
         for col in range(cols):
-            # looking at each possible direction
-            for dir_row, dir_col in directions:
-                # current_element = grid[row][col]
+            roll_count = 0
+            current_element = grid[row][col]
+            if current_element == '@':
+                # looking at each possible direction
+                for dir_row, dir_col in directions:
+                    neighbor_row = row + dir_row 
+                    neighbor_col = col + dir_col
 
-                roll_count = 0
-                neighbor_row = row + dir_row 
-                neighbor_col = col + dir_col
+                    if neighbor_row >= 0 and neighbor_row < rows and neighbor_col >= 0 and neighbor_col < cols:
+                        neighboring_value = grid[neighbor_row][neighbor_col]
+                            
+                        if neighboring_value == '@':
+                            roll_count += 1
+                            print(f"neighbor_row: {neighbor_row}, neighbor_col: {neighbor_col}, roll_count: {roll_count}")
+                    else:
+                        continue
 
-                if neighbor_row >= 0 and neighbor_row < rows and neighbor_col >= 0 and neighbor_col < cols:
-                    neighboring_value = grid[neighbor_row][neighbor_col]
-                        
-                    if neighboring_value == '@':
-                        roll_count += 1
-                        print(f"neighbor_row: {neighbor_row}, neighbor_col: {neighbor_col}, roll_count: {roll_count}")
-                else:
-                    break
-                
-            if roll_count < 4:
-                accessible_count += 1 
-    
+                if roll_count < 4:
+                    accessible_count += 1 
+        
     print(f"accessibility_count: {accessible_count}")
 
 
