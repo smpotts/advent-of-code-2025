@@ -40,7 +40,7 @@ def remove_rolls(grid):
 
 
 def main():
-    grid = load_input(4, 'sample')
+    grid = load_input(4, 'input')
     grid = [list(row) for row in grid]
 
     total_removed = 0
